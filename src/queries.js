@@ -32,19 +32,6 @@ const getStudentById = (req, res) => {
   });
 };
 
-/*
-  date_started: string;
-  active: boolean;
-  phone_1?: string;
-  phone_2?: string;
-  phone_1_label?: string;
-  phone_2_label?: string;
-  financial_status?: string;
-  lesson_length?: string;
-  current_rate?: string;
-  active_songs?: string;
-  additional_notes?: string;
-*/
 
 const createStudent = (req, res) => {
   const {
@@ -64,8 +51,8 @@ const createStudent = (req, res) => {
     additional_notes,
   } = req.body;
 
-  const sanitized_first_name = first_name;
-  const sanitized_last_name = last_name;
+  const sanitized_first_name = sanitizeHtml(first_name);
+  const sanitized_last_name = sanitizeHtml(last_name);
 
   pool.query(
     `INSERT INTO students ( first_name, last_name, email, date_started, active, phone_1, phone_2, phone_1_label, phone_2_label,
@@ -112,8 +99,6 @@ const updateStudent = (req, res) => {
       req.body.id,
       sanitizeHtml(req.body.first_name),
       sanitizeHtml(req.body.last_name),
-      // req.body.first_name,
-      // req.body.last_name,
       req.body.email,
       req.body.date_started,
       req.body.active,
