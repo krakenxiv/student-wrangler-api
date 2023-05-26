@@ -21,7 +21,7 @@ const pool_aws = new Pool({
 });
 
 const getStudents = (req, res) => {
-  pool_aws.query("SELECT * FROM students", (error, results) => {
+  pool_cyclic.query("SELECT * FROM students", (error, results) => {
     if (error) {
       throw error;
     }
@@ -32,7 +32,7 @@ const getStudents = (req, res) => {
 const getStudentById = (req, res) => {
   const id = parseInt(req.params.id);
 
-  pool_aws.query("SELECT * FROM students WHERE id = $1", [id], (error, results) => {
+  pool_cyclic.query("SELECT * FROM students WHERE id = $1", [id], (error, results) => {
     if (error) {
       throw error;
     }
@@ -62,7 +62,7 @@ const createStudent = (req, res) => {
   const sanitized_first_name = sanitizeHtml(first_name);
   const sanitized_last_name = sanitizeHtml(last_name);
 
-  pool_aws.query(
+  pool_cyclic.query(
     `INSERT INTO students ( first_name, last_name, email, date_started, active, phone_1, phone_2, phone_1_label, phone_2_label,
       financial_status, lesson_length, current_rate, active_songs, additional_notes) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *`,
     [
@@ -120,7 +120,7 @@ const updateStudent = (req, res) => {
       req.body.active_songs,
       req.body.additional_notes,
     ];
-    pool_aws.query(
+    pool_cyclic.query(
       "UPDATE students SET first_name = $2, last_name = $3, email = $4, date_started = $5, active = $6, phone_1 = $7, phone_2 = $8, phone_1_label = $9, phone_2_label = $10, financial_status = $11,lesson_length = $12, current_rate = $13,active_songs = $14, additional_notes = $15 WHERE id = $1",
       values,
       (error, results) => {
@@ -154,7 +154,7 @@ const updateStudent = (req, res) => {
 
 const deleteStudent = (req, res) => {
   const id = req.params.id;
-  pool_aws.query(`DELETE FROM students WHERE id = ${id}`, (error, results) => {
+  pool_cyclic.query(`DELETE FROM students WHERE id = ${id}`, (error, results) => {
     if (error) {
       throw error;
     }
