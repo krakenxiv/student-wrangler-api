@@ -19,7 +19,7 @@ app.use(
   })
 );
 const corsOptions = {
-  origin: [process.env.TODO_UI_LOCAL_HOST, process.env.TODO_DATA_HOST],
+  origin: [process.env.SW_LOCAL_HOST, process.env.SW_PROD_HOST],
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
