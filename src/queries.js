@@ -1,4 +1,4 @@
-// TODO!! write basic tests
+// TODO!! write some basic tests
 const sanitizeHtml = require("sanitize-html");
 const { response } = require("express");
 
